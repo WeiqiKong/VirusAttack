@@ -64,7 +64,6 @@ public class PlayFrame extends JFrame {
 				switch (keyCode) {
 				case KeyEvent.VK_LEFT: {
 					virus.move(4);;
-					System.out.println("aa");
 				}
 					break;
 				case KeyEvent.VK_RIGHT:
