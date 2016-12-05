@@ -1,9 +1,14 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -13,16 +18,21 @@ import java.awt.Toolkit;
 public class PlayFrame extends JFrame {
 	private int PF_WIDTH = 1280;
 	private int PF_HEGHT = 720;
-	
-	/**
-	 * 
-	 */
+	ArrayList<Antiviren> antiArray = new ArrayList<Antiviren>();
+	// HashSet<Antiviren> antiArray = new HashSet<Antiviren>();
+	int virusCX, VirusCY;
 	private static final long serialVersionUID = 1L;
-	
-	
 	private BackgroundPanel jpnl;
-	private Timer timer;  
-	
+	private Timer timer, anti_timer;
+
+	private static int punkt = 0;
+	private Antiviren center ;
+
+	// private Image virusImage = new
+	// ImageIcon(PlayFrame.class.getResource("/icon/Virus_1.png")).getImage();
+	private Virus virus;
+	private JTextField textField;
+
 	public PlayFrame() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setTitle("VirusAttack");
@@ -34,311 +44,192 @@ public class PlayFrame extends JFrame {
 		jpnl.setFocusable(true);
 		getContentPane().add(jpnl, BorderLayout.CENTER);
 		jpnl.setLayout(null);
-		
-		Virus virus = new Virus();
+
+		virus = new Virus();
 		jpnl.add(virus);
-		
 		jpnl.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_UP){
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					VirusDirection.IS_UP_PRESSED = false;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_DOWN){
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					VirusDirection.IS_DOWN_PRESSED = false;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					VirusDirection.IS_RIGHT_PRESSED = false;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_LEFT){
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					VirusDirection.IS_LEFT_PRESSED = false;
 				}
-//				System.out.println(VirusDirection.getDirection());
-//				virus.move(VirusDirection.getDirection());
+				// System.out.println(VirusDirection.getDirection());
+				// virus.move(VirusDirection.getDirection());
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_UP){
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					VirusDirection.IS_UP_PRESSED = true;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_DOWN){
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					VirusDirection.IS_DOWN_PRESSED = true;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					VirusDirection.IS_RIGHT_PRESSED = true;
 				}
-				if(e.getKeyCode()==KeyEvent.VK_LEFT){
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					VirusDirection.IS_LEFT_PRESSED = true;
 				}
-//				System.out.println(VirusDirection.getDirection());
-//				virus.move(VirusDirection.getDirection());
+				// System.out.println(VirusDirection.getDirection());
+				// virus.move(VirusDirection.getDirection());
 			}
 		});
-//	使用Timer增加刷新频率 	
-		timer  = new Timer(10,new ActionListener() {
+		// 使用Timer增加刷新频率
+		timer = new Timer(20, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				virus.move(VirusDirection.getDirection());	
+				virus.move(VirusDirection.getDirection());
 			}
-		} );
+		});
+
 		timer.start();
+
+		for (int i = 0; i < 5; i++) {
+			addAntivieren(new Antiviren(50), 50, 4);
+		}
+
+		for (int i = 0; i < 3; i++) {
+			addAntivieren(new Antiviren(100), 100, 3);
+		}
 		
-		System.out.println(this.getWidth());
-		Antiviren anti1 = new Antiviren(250);	
-		anti1.my_setLocation((PF_WIDTH-anti1.getRadius())/2,(PF_HEGHT-anti1.getRadius())/2 );
-		anti1.init();
-		jpnl.add(anti1);
+		for (int i = 0; i < 2; i++) {
+			addAntivieren(new Antiviren(150), 150, 2);
+		}
+		
+		for (int i = 0; i < 1; i++) {
+			addAntivieren(new Antiviren(200), 200, 1);
+		}
+		
+		addCenter();
+		textField = new JTextField();
+		textField.setBounds(44, 58, 66, 21);
+		jpnl.add(textField);
+		textField.setColumns(10);
+		
+
 		
 		
+		
+		
+		
+
+		Thread newAntitd_50 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (antiArray.size() < 15) {
+						addAntivieren(new Antiviren(50), 50, 4);
+						addAntivieren(new Antiviren(50), 50, 4);
+						System.out.println(antiArray.size());
+					}
+				}
+
+			}
+		});
+		 newAntitd_50.start();
 		 
-		
+		 Thread newAntitd_100 = new Thread(new Runnable() {
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-// 成功完成8个方向的移动		
-//		jpnl.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//				if(e.getKeyCode()==KeyEvent.VK_UP){
-//					VirusDirection.IS_UP_PRESSED = false;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_DOWN){
-//					VirusDirection.IS_DOWN_PRESSED = false;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_RIGHT){
-//					VirusDirection.IS_RIGHT_PRESSED = false;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_LEFT){
-//					VirusDirection.IS_LEFT_PRESSED = false;
-//				}
-//				System.out.println(VirusDirection.getDirection());
-//				virus.move(VirusDirection.getDirection());
-//			}
-//			
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				if(e.getKeyCode()==KeyEvent.VK_UP){
-//					VirusDirection.IS_UP_PRESSED = true;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_DOWN){
-//					VirusDirection.IS_DOWN_PRESSED = true;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_RIGHT){
-//					VirusDirection.IS_RIGHT_PRESSED = true;
-//				}
-//				if(e.getKeyCode()==KeyEvent.VK_LEFT){
-//					VirusDirection.IS_LEFT_PRESSED = true;
-//				}
-//				System.out.println(VirusDirection.getDirection());
-//				virus.move(VirusDirection.getDirection());
-//			}
-//		});
-		
-		
-		
-		// use Thread test
-//		Thread t1 = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				jpnl.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyPressed(KeyEvent e) {
-//						int keyCode = e.getKeyCode();
-//						if (keyCode == KeyEvent.VK_DOWN) {
-//							virus.setY(virus.getY() + 5);
-//							System.out.println(virus.getY() + 5);
-//							System.out.println(KeyStroke.getAWTKeyStrokeForEvent(e));
-//							virus.setLocation(virus.getPostion());
-//						}
-//					}
-//				});
-//
-//			}
-//
-//		});
-//		t1.start();
-//
-//		Thread t2 = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				jpnl.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyPressed(KeyEvent e) {
-//						int keyCode = e.getKeyCode();
-//						if (keyCode == KeyEvent.VK_UP) {
-//							virus.setY(virus.getY() - 5);
-//							System.out.println(virus.getY() - 5);
-//							virus.setLocation(virus.getPostion());
-//						}
-//					}
-//				});
-//
-//			}
-//
-//		});
-//		t2.start();
-//
-//		Thread t3 = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				jpnl.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyPressed(KeyEvent e) {
-//						int keyCode = e.getKeyCode();
-//						switch (keyCode) {
-//						case KeyEvent.VK_RIGHT:
-//							virus.move(3);
-//							break;
-//						}
-//					}
-//				});
-//
-//			}
-//
-//		});
-//		t3.start();
-//		Thread t4 = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				jpnl.addKeyListener(new KeyAdapter() {
-//					@Override
-//					public void keyPressed(KeyEvent e) {
-//						int keyCode = e.getKeyCode();
-//						switch (keyCode) {
-//						case KeyEvent.VK_LEFT:
-//							virus.move(4);
-//							break;
-//						}
-//					}
-//				});
-//
-//			}
-//
-//		});
-//		t4.start();
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (antiArray.size() < 15) {
+							addAntivieren(new Antiviren(100), 100, 3);
+						}
+					}
 
-		
+				}
+			});
+		 newAntitd_100.start();
 
-		// 不使用线程
-//		jpnl.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				int keyCode = e.getKeyCode();
-//				System.out.print(keyCode + " ");
-//				System.out.print(e.getID() + " ");
-//				System.out.println(e.hashCode());
-//				System.out.println(KeyStroke.getAWTKeyStrokeForEvent(e));
-//
-//				switch (keyCode) {
-//				case KeyEvent.VK_LEFT: {
-//					virus.move(4);
-//					
-//					// jpnl.addKeyListener(new KeyAdapter() {
-//					// @Override
-//					// public void keyPressed(KeyEvent e) {
-//					// int keyCode2 = e.getKeyCode();
-//					// switch (keyCode2) {
-//					// case KeyEvent.VK_RIGHT:
-//					// System.out.println("1");
-//					// break;
-//					// case KeyEvent.VK_UP:
-//					// System.out.println("2");
-//					// break;
-//					// case KeyEvent.VK_DOWN:
-//					// System.out.println("3");
-//					// break;
-//					// }
-//					//
-//					// }
-//					// });
-//				}
-//					break;
-//				case KeyEvent.VK_RIGHT:
-//					virus.move(3);
-//					break;
-//				case KeyEvent.VK_UP:
-//					virus.move(2);
-//					break;
-//				case KeyEvent.VK_DOWN:
-//					virus.move(1);
-//					break;
-//				}
-//			}
+		anti_timer = new Timer(30, new ActionListener() {
 
-			// @Override
-			// public void keyTyped(KeyEvent e) {
-			// int keyCode = e.getKeyCode();
-			// System.out.print(keyCode+" ");
-			// System.out.print(e.getID()+" ");
-			// System.out.println(e.hashCode());
-			// switch (keyCode) {
-			// case KeyEvent.VK_LEFT: {
-			// virus.move(4);
-			//
-			// }
-			// break;
-			// case KeyEvent.VK_RIGHT:
-			// virus.move(3);
-			// break;
-			// case KeyEvent.VK_UP:
-			// virus.move(2);
-			// break;
-			// case KeyEvent.VK_DOWN:
-			// virus.move(1);
-			// break;
-			// }
-			// }
-//		});
+			public void actionPerformed(ActionEvent e) {
+				isCrashEat();
+				isCrashEated();
+				for (Antiviren anti : antiArray) {
+
+					anti.move();
+				}
+			}
+		});
+
+		anti_timer.start();
+
 		pack();
+	}
+
+	public void isCrashEat() {
+		virusCX = virus.getCenter().x;
+		VirusCY = virus.getCenter().y;
+		for (Antiviren anti : antiArray) {
+			if (anti.getRadius() <=100 && anti.isDead() == false) {
+				if (virusCX > anti.getX() && virusCX < anti.getX() + anti.getRadius() && VirusCY > anti.getY()
+						&& VirusCY < anti.getY() + anti.getRadius()) {
+					anti.setVisible(false);
+					punkt += anti.getRadius();
+					jpnl.remove(anti);
+					punkt += anti.getRadius();
+					antiArray.remove(anti);
+					anti.setDead(true);
+					System.out.println(punkt);
+					textField.setText(punkt+" ");
+					break;
+				}
+			}
+		}
+
+	}
+
+	public void isCrashEated() {
+		virusCX = virus.getCenter().x;
+		VirusCY = virus.getCenter().y;
+
+		for (Antiviren anti : antiArray) {
+			if (anti.getRadius() > 100) {
+				if (virusCX > anti.getX() && virusCX < anti.getX() + anti.getRadius() && VirusCY > anti.getY()
+						&& VirusCY < anti.getY() + anti.getRadius()) {
+					jpnl.remove(virus);
+
+				}
+			}
+		}
+
+	}
+
+	public void addAntivieren(Antiviren anti, int radius, int speed) {
+		anti = new Antiviren(radius);
+		antiArray.add(anti);
+		anti.my_setLocation((new RandomZahl(PF_WIDTH)).getRandomZahl(), (new RandomZahl(PF_HEGHT)).getRandomZahl());
+		anti.init(speed);
+		jpnl.add(anti);
+	}
+	
+	public void addCenter() {
+		center = new Antiviren(250);
+		antiArray.add(center);
+		center.my_setLocation(515, 235);
+		center.init(0);
+		jpnl.add(center);
 	}
 }

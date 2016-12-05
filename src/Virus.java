@@ -4,9 +4,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Virus extends JLabel {
-	private int x = 1000;
+	private int x = 200;
 	private int y = 300;
-	public static double VIRUS_SPEED = 5.0;
+	public static double VIRUS_SPEED = 15.0;
+	public int Radius  = 75;
 	
 	
 	
@@ -79,6 +80,11 @@ public class Virus extends JLabel {
 	
 	public Point getPostion(){
 		return new Point(x,y);
+		
+	}
+	
+	public Point getCenter(){
+		return new Point(x+Radius,y+Radius);
 		
 	}
 	
