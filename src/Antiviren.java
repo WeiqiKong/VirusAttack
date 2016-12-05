@@ -179,11 +179,6 @@ public class Antiviren extends JLabel {
 		}
 	}
 	
-	public ArrayList<Integer> getRegion(){
-		
-		return null;
-	}
-
 	public boolean isDead() {
 		return isDead;
 	}
@@ -191,5 +186,7 @@ public class Antiviren extends JLabel {
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
+	
+	
 
 }

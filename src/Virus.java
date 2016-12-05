@@ -4,38 +4,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Virus extends JLabel {
-	private int x = 200;
-	private int y = 300;
-	public static double VIRUS_SPEED = 15.0;
-	public int Radius  = 75;
-	
-	
-	
-	
-//	public final static int MOVE_UP = 1;
-//	public final static int MOVE_DOWN = 2;
-//	public final static int MOVE_RIGHT = 3;
-//	public final static int MOVE_LEFT = 4;
-	/**
-	 * 
-	 */
-	
-	
-	
-	
+	private int x = 0;
+	private int y = 0;
+	public static double VIRUS_SPEED = 10.0;
+	private int Radius = 50;
+	private int level = 1;
+
 	private static final long serialVersionUID = 1L;
 
 	public Virus() {
 		super();
-		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1.png")));
-		System.out.println("/icon/Virus_1.png");
-		this.setBounds(x, y, 150,150);
+		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
+		this.setBounds(x, y, Radius, Radius);
 	}
-
-//	public void setLocation(int posX, int posY) {
-//		this.x = posX;
-//		this.y = posY;
-//	}
 
 	public void move(int step) {
 		switch (step) {
@@ -55,47 +36,49 @@ public class Virus extends JLabel {
 			break;
 		case 7:
 			y += VIRUS_SPEED;
-			x -=VIRUS_SPEED;
+			x -= VIRUS_SPEED;
 			break;
-			
+
 		case 9:
-			x -=VIRUS_SPEED;
+			x -= VIRUS_SPEED;
 			break;
 		case 10:
 			y -= VIRUS_SPEED;
-			x -=VIRUS_SPEED;
+			x -= VIRUS_SPEED;
 			break;
 		case 12:
 			y -= VIRUS_SPEED;
 			break;
 		}
-		
-		this.setLocation(x,y);
+
+		this.setLocation(x, y);
 
 	}
 
-	public void repeat() {
-		this.setBounds(x, y, 200, 200);
+	public void levelup() {
+		setLevel(getLevel() + 1);
+		Radius += 50;
+		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
+		this.setBounds(x, y, Radius, Radius);
 	}
-	
-	public Point getPostion(){
-		return new Point(x,y);
-		
+
+	public Point getPostion() {
+		return new Point(x, y);
+
 	}
-	
-	public Point getCenter(){
-		return new Point(x+Radius,y+Radius);
-		
+
+	public Point getCenter() {
+		return new Point(x + Radius, y + Radius);
+
 	}
-	
-	
-	
+
 	public int getX() {
 		return x;
 	}
 
 	/**
-	 * @param x the x to set
+	 * @param x
+	 *            the x to set
 	 */
 	public void setX(int x) {
 		this.x = x;
@@ -109,10 +92,35 @@ public class Virus extends JLabel {
 	}
 
 	/**
-	 * @param y the y to set
+	 * @param y
+	 *            the y to set
 	 */
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public double getVIRUS_SPEED() {
+		return VIRUS_SPEED;
+	}
+
+	public void setVIRUS_SPEED(double vIRUS_SPEED) {
+		VIRUS_SPEED = vIRUS_SPEED;
+	}
+
+	public int getRadius() {
+		return Radius;
+	}
+
+	public void setRadius(int radius) {
+		Radius = radius;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 }
