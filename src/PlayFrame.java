@@ -41,7 +41,6 @@ public class PlayFrame extends JFrame {
 		jpnl.setLayout(null);
 
 		virus = new Virus();
-		virus.levelup();
 		jpnl.add(virus);
 		jpnl.addKeyListener(new KeyAdapter() {
 			@Override
@@ -105,8 +104,8 @@ public class PlayFrame extends JFrame {
 						e.printStackTrace();
 					}
 					if (antiArray.size() < 15) {
-						addAntivieren(new Antiviren(50), 50, 4);
-						addAntivieren(new Antiviren(50), 50, 4);
+						addAntivieren(new Antiviren(50), 50, 6);
+						addAntivieren(new Antiviren(50), 50, 6);
 					}
 
 					if (virus.getLevel() > 2 && center.getAnti_speed() == 0) {
@@ -134,7 +133,7 @@ public class PlayFrame extends JFrame {
 						}
 						if (antiArray.size() < 15 && virus.getLevel() > 1) {
 
-							addAntivieren(new Antiviren(100), 100, 5);
+							addAntivieren(new Antiviren(100), 100, 7);
 						}
 					}
 				}
@@ -153,13 +152,13 @@ public class PlayFrame extends JFrame {
 						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 					}
-					if (virus.getLevel() > 2)
+					if (antiArray.size() < 15 &&virus.getLevel() > 2)
 						addAntivieren(new Antiviren(150), 150, 4);
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 					}
-					if (virus.getLevel() > 2)
+					if (antiArray.size() < 15 &&virus.getLevel() > 2)
 						addAntivieren(new Antiviren(200), 200, 4);
 				}
 
