@@ -88,9 +88,6 @@ public class PlayFrame extends JFrame {
 		});
 		timer.start();
 
-		
-
-
 		addCenter();
 		textField = new JTextField("0");
 		textField.setBounds(44, 58, 66, 21);
@@ -122,24 +119,53 @@ public class PlayFrame extends JFrame {
 		});
 		newAntitd_50.start();
 
+		antiFactory(6, 4, 1, 1);
+
 		Thread newAntitd_100 = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				while (virus.getLevel() > 1) {
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (antiArray.size() < 15) {
-						addAntivieren(new Antiviren(100), 100, 3);
+				while (true) {
+					{
+						try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (antiArray.size() < 15 && virus.getLevel() > 1) {
+
+							addAntivieren(new Antiviren(100), 100, 5);
+						}
 					}
 				}
 
 			}
 		});
 		newAntitd_100.start();
+
+		Thread newAntitd_150 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+					}
+					if (virus.getLevel() > 2)
+						addAntivieren(new Antiviren(150), 150, 4);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+					}
+					if (virus.getLevel() > 2)
+						addAntivieren(new Antiviren(200), 200, 4);
+				}
+
+			}
+		});
+		newAntitd_150.start();
 
 		anti_timer = new Timer(30, new ActionListener() {
 
@@ -161,20 +187,20 @@ public class PlayFrame extends JFrame {
 	public void isCrashEat() {
 		virusCX = virus.getCenter().x;
 		VirusCY = virus.getCenter().y;
-		int r = virus.getRadius() - virus.getRadius() / 5;
+		int r = virus.getRadius() - virus.getRadius() / 3;
 		for (Antiviren anti : antiArray) {
 			int x = anti.getX() + anti.getRadius();
 			int y = anti.getY() + anti.getRadius();
 			if ((anti.getRadius() <= virus.getRadius()) && anti.isDead() == false) {
 				if (x > virusCX - r && x < virusCX + r && y > VirusCY - r && y < VirusCY + r) {
-					punkt += anti.getRadius() * 2;
-					showpunkt += anti.getRadius() * 2;
+					punkt += 100;
+					showpunkt +=100;
 					jpnl.remove(anti);
 					anti.setDead(true);
 					System.out.println(punkt);
 					textField.setText(showpunkt + " ");
 					antiArray.remove(anti);
-					if (punkt > 2000) {
+					if (punkt >= 2000) {
 						virus.levelup();
 						punkt = 0;
 					}
@@ -190,32 +216,31 @@ public class PlayFrame extends JFrame {
 	public void isCrashEated() {
 		virusCX = virus.getCenter().x;
 		VirusCY = virus.getCenter().y;
-		
 
 		for (Antiviren anti : antiArray) {
 			int x = anti.getX() + anti.getRadius();
 			int y = anti.getY() + anti.getRadius();
-			int d = anti.getRadius() - anti.getRadius()/3;
+			int d = anti.getRadius() - anti.getRadius() / 3;
 			if (anti.getRadius() > virus.getRadius()) {
-				if (virusCX > x-d && virusCX < x+d/4  && VirusCY > y-d
-						&& VirusCY < y+d/4&&virus.getVIRUS_SPEED()!=0) {
-//					System.out.println(anti.getRadius());
-//					System.out.println("virusCX: " + virusCX
-//							+" VirusCY : "+VirusCY);
-//					System.out.println("AntiX : "+(x-d)+ " AntiY:"+(y-d));
+				if (virusCX > x - d && virusCX < x + d / 4 && VirusCY > y - d && VirusCY < y + d / 4
+						&& virus.getVIRUS_SPEED() != 0) {
+					// System.out.println(anti.getRadius());
+					// System.out.println("virusCX: " + virusCX
+					// +" VirusCY : "+VirusCY);
+					// System.out.println("AntiX : "+(x-d)+ " AntiY:"+(y-d));
 					virus.setVIRUS_SPEED(0);
 					for (Antiviren anti2 : antiArray) {
 						anti2.setAnti_speed(0);
 					}
-					
+
 					break;
 				}
 			}
 		}
 
 	}
-	
-	public void antiFactory(int a,int b,int c,int d){
+
+	public void antiFactory(int a, int b, int c, int d) {
 		for (int i = 0; i < a; i++) {
 			addAntivieren(new Antiviren(50), 50, 4);
 		}

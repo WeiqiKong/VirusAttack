@@ -60,6 +60,7 @@ public class Virus extends JLabel {
 		Radius += 50;
 		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
 		this.setBounds(x, y, Radius, Radius);
+		System.out.println(level);
 	}
 
 	public Point getPostion() {
@@ -120,6 +121,7 @@ public class Virus extends JLabel {
 	}
 
 	public void setLevel(int level) {
+		
 		this.level = level;
 	}
 
