@@ -1,5 +1,6 @@
 package anti;
 
+import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,6 +69,10 @@ public class AntiFactory {
 
 	public void setAntiArray(Set<Antiviren> antiArray) {
 		this.antiArray = antiArray;
+	}
+	
+	public void clear(){
+		antiArray.clear();
 	}
 
 }

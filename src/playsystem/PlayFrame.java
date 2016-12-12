@@ -1,16 +1,14 @@
 package playsystem;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Set;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,12 +18,15 @@ import javax.swing.UIManager;
 import anti.AntiFactory;
 import anti.Antiviren;
 import level.Level;
+import menu.EndPanel;
 import menu.GameStartMenu;
 import menu.HighScorePanel;
 import menu.Player;
+import menu.WinPanel;
 import virus.Virus;
 import virus.VirusDirection;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
@@ -40,13 +41,39 @@ public class PlayFrame extends JFrame {
 	private Virus virus;
 	private JLabel score;
 	private AntiFactory antiFactory;
-	Set<Antiviren> antiArray;
 	private Level level;
-	private JLabel gameover;
 	private HighScorePanel hsp;
-
-	private static final long serialVersionUID = 1L;
+	private JButton back;
+	private JButton back_end, back_win;
+	private JLabel name;
 	private JTextField playerName;
+	private JLabel gameover;
+	private boolean isEnd, End_already = false;
+	private boolean firstTime = true;
+	private EndPanel edp;
+	private WinPanel wp;
+	private static final long serialVersionUID = 1L;
+
+	public void gameStart() {
+		System.out.println("firstTime:" + firstTime);
+		if (!firstTime) {
+			virus.setLocation(0, 0);
+			virus.init();
+			System.out.println("Level:" + virus.getLevel());
+
+			punkt = 0;
+			showpunkt = 0;
+			System.out.println(virus.getCenter().toString());
+			isEnd = false;
+			End_already = false;
+			antiFactory.init(6, 6, 2, 1);
+			antiFactory.addCenter();
+
+			// timer.setDelay(20);
+			// anti_timer.setDelay(30);
+		}
+
+	}
 
 	public PlayFrame() {
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -57,11 +84,9 @@ public class PlayFrame extends JFrame {
 		// GAME START JPanel
 		GameStartMenu gsm = new GameStartMenu(
 				(new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
-
 		gsm.setOpaque(false);
 		gsm.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		gsm.setFocusable(true);
-		getContentPane().add(gsm);
 		gsm.setLayout(null);
 
 		// JButton Game Start
@@ -74,9 +99,12 @@ public class PlayFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent e) {
+				gameStart();
 				gsm.setVisible(false);
 				hsp.setVisible(false);
 				jpnl.setVisible(true);
+				edp.setVisible(false);
+
 			}
 
 			@Override
@@ -122,7 +150,6 @@ public class PlayFrame extends JFrame {
 		hsp.setOpaque(false);
 		hsp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		hsp.setFocusable(true);
-		getContentPane().add(hsp);
 		hsp.setLayout(null);
 		hsp.setVisible(false);
 
@@ -132,12 +159,10 @@ public class PlayFrame extends JFrame {
 		jpnl.setOpaque(false);
 		jpnl.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		jpnl.setFocusable(true);
-		getContentPane().add(jpnl);
 		jpnl.setLayout(null);
 		jpnl.setVisible(false);
 
 		antiFactory = new AntiFactory(jpnl);
-		antiArray = antiFactory.getAntiArray();
 		virus = new Virus();
 		jpnl.add(virus);
 
@@ -147,19 +172,28 @@ public class PlayFrame extends JFrame {
 		score.setBounds(53, 27, 284, 70);
 		jpnl.add(score);
 
+		// EndPanel
+		edp = new EndPanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		edp.setOpaque(false);
+		edp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
+		edp.setFocusable(true);
+		edp.setLayout(null);
+		edp.setVisible(false);
+
+		// WinPanel
+		wp = new WinPanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		wp.setOpaque(false);
+		wp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
+		wp.setFocusable(true);
+		wp.setLayout(null);
+		wp.setVisible(false);
+
 		// GameOver GIF
 		gameover = new JLabel("");
 		gameover.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/Gameover.gif")));
 		gameover.setBounds(133, 148, 1014, 424);
-		gameover.setVisible(false);
-		jpnl.add(gameover);
 
-		JLabel name = new JLabel("");
-		name.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/endPanel/name.png")));
-		name.setBounds(539, 606, 129, 48);
-		jpnl.add(name);
-
-		JButton back = new JButton();
+		back = new JButton();
 		back.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -185,10 +219,73 @@ public class PlayFrame extends JFrame {
 		back.setOpaque(false);
 		hsp.add(back);
 
+		back_end = new JButton();
+		back_end.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				back_end.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back-shine.png")));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				hsp.setVisible(false);
+				gsm.setVisible(true);
+				jpnl.setVisible(false);
+				edp.setVisible(false);
+				isEnd = false;
+				hsp.addDate(new Player(edp.getPlayerName().getText(), showpunkt));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				back_end.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back.png")));
+			}
+		});
+		back_end.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/highscore/back.png")));
+		back_end.setBounds(969, 606, 178, 64);
+		back_end.setContentAreaFilled(false);
+		back_end.setBorder(null);
+		back_end.setOpaque(false);
+		edp.add(back_end);
+
+		back_win = new JButton();
+		back_win.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				back_win.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back-shine.png")));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				hsp.setVisible(false);
+				gsm.setVisible(true);
+				jpnl.setVisible(false);
+				edp.setVisible(false);
+				wp.setVisible(false);
+				isEnd = false;
+				hsp.addDate(new Player(edp.getPlayerName().getText(), showpunkt));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				back_win.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back.png")));
+			}
+		});
+		back_win.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/highscore/back.png")));
+		back_win.setBounds(969, 606, 178, 64);
+		back_win.setContentAreaFilled(false);
+		back_win.setBorder(null);
+		back_win.setOpaque(false);
+		wp.add(back_win);
+
+		name = new JLabel("");
+		name.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/endPanel/name.png")));
+		name.setBounds(539, 606, 129, 48);
+
 		playerName = new JTextField();
 		playerName.setBounds(698, 606, 196, 48);
+		playerName.setFont(new Font("MV Boli", Font.PLAIN, 39));
 		playerName.setColumns(10);
-		jpnl.add(playerName);
 
 		jpnl.addKeyListener(new KeyAdapter() {
 			@Override
@@ -206,7 +303,6 @@ public class PlayFrame extends JFrame {
 					VirusDirection.IS_LEFT_PRESSED = false;
 				}
 				if (e.getKeyChar() == KeyEvent.VK_L) {
-					System.out.println("a");
 					virus.levelup();
 					level.levelUp();
 				}
@@ -242,16 +338,37 @@ public class PlayFrame extends JFrame {
 			}
 		});
 		timer.start();
+
 		anti_timer = new Timer(30, new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				isCrashEat();
+				isCrashEated();
 				if (virus.getLevel() == 5) {
+					hsp.setVisible(false);
+					gsm.setVisible(true);
 					jpnl.setVisible(false);
+					edp.setVisible(false);
+					wp.setVisible(false);
 				}
-				for (Antiviren anti : antiArray) {
-					if (antiArray.contains(anti))
+				if (isEnd && !End_already) {
+					// timer.setDelay(2000);
+					// anti_timer.setDelay(2000);
+					hsp.setVisible(false);
+					gsm.setVisible(false);
+					jpnl.setVisible(false);
+					edp.setVisible(true);
+					for (Antiviren anti : antiFactory.getAntiArray()) {
+						if (antiFactory.getAntiArray().contains(anti))
+							jpnl.remove(anti);
+					}
+					antiFactory.getAntiArray().clear();
+					End_already = true;
+				}
+				for (Antiviren anti : antiFactory.getAntiArray()) {
+					if (antiFactory.getAntiArray().contains(anti)) {
 						anti.move();
+					}
 				}
 			}
 		});
@@ -266,22 +383,65 @@ public class PlayFrame extends JFrame {
 		hsp.addDate(new Player("Max", 5213));
 		hsp.addDate(new Player("Lucas", 3415));
 		hsp.addDate(new Player("Norman", 6321));
-		hsp.addDate(new Player("Sven", 3414));
+		// hsp.addDate(new Player("Sven", 3414));
+		getContentPane().add(wp);
+
+		JLabel lblYouWin = new JLabel("YOU WIN");
+		lblYouWin.setFont(new Font("MV Boli", Font.BOLD, 99));
+		lblYouWin.setForeground(Color.WHITE);
+		lblYouWin.setBounds(237, 115, 723, 279);
+		wp.add(lblYouWin);
+
+		getContentPane().add(hsp);
+		getContentPane().add(gsm);
+		getContentPane().add(jpnl);
+		getContentPane().add(edp);
+		getContentPane().add(wp);
+
+		hsp.setVisible(false);
+		gsm.setVisible(true);
+		jpnl.setVisible(false);
+		edp.setVisible(false);
+		wp.setVisible(false);
+
+		jpnl.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_L) {
+					virus.levelup();
+				}
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		pack();
+
 	}
 
 	public void isCrashEat() {
-		for (Antiviren anti : antiArray) {
+		for (Antiviren anti : antiFactory.getAntiArray()) {
 			if (virus.getDistance(anti.getCenter()) < (((anti.getRadius() + virus.getRadius()) / 2) - 20)) {
 				if (virus.getRadius() >= anti.getRadius()) {
 					anti.setDead(true);
 					jpnl.remove(anti);
-					if (antiArray.contains(anti)) {
-						antiArray.remove(anti);
+					if (antiFactory.getAntiArray().contains(anti)) {
+						antiFactory.getAntiArray().remove(anti);
 					}
 					punkt += (anti.getRadius() * 2 / virus.getLevel());
 					showpunkt += anti.getRadius();
-					System.out.println(punkt);
+					System.out.println("punkt" + punkt);
 					score.setText("Score:" + showpunkt);
 					if (punkt >= 2000) {
 						virus.levelup();
@@ -289,18 +449,28 @@ public class PlayFrame extends JFrame {
 						punkt = 0;
 					}
 					break;
-				} else {
-					virus.setVIRUS_SPEED(0);
-					gameover.setVisible(true);
-					for (Antiviren anti2 : antiArray) {
-						anti2.setAnti_speed(0);
-					}
-					break;
-
 				}
 
 			}
 		}
 
+	}
+
+	public void isCrashEated() {
+		for (Antiviren anti : antiFactory.getAntiArray()) {
+			if (virus.getDistance(anti.getCenter()) < (((anti.getRadius() + virus.getRadius()) / 2) - 40)) {
+				if (virus.getRadius() <= anti.getRadius() && !isEnd) {
+					isEnd = true;
+					System.out.println("isEnd: " + isEnd);
+					firstTime = false;
+					VirusDirection.init();
+					virus.setX(0);
+					virus.setY(0);
+					virus.setCenter();
+					System.out.println("virus.setLocation(0, 0);" + virus.getCenter().toString());
+				}
+
+			}
+		}
 	}
 }

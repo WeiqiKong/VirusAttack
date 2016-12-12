@@ -25,6 +25,7 @@ public class Virus extends JLabel {
 	}
 
 	public void move(int step) {
+
 		switch (step) {
 		case 1:
 			y -= VIRUS_SPEED;
@@ -56,7 +57,18 @@ public class Virus extends JLabel {
 			y -= VIRUS_SPEED;
 			break;
 		}
-
+		if (x < 0) {
+			x = 0;
+		}
+		if (x > 1280 - Radius) {
+			x = 1280 - Radius;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > 720 - Radius) {
+			y = 720 - Radius;
+		}
 		this.setLocation(x, y);
 		setCenter();
 
@@ -66,6 +78,14 @@ public class Virus extends JLabel {
 		setLevel(getLevel() + 1);
 		Radius += 50;
 		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
+		this.setBounds(x, y, Radius, Radius);
+		this.setCenter();
+	}
+
+	public void init() {
+		setLevel(1);
+		setRadius(Radius);
+		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + 50 + ".png")));
 		this.setBounds(x, y, Radius, Radius);
 		this.setCenter();
 	}
@@ -134,6 +154,10 @@ public class Virus extends JLabel {
 	public void setLevel(int level) {
 
 		this.level = level;
+	}
+
+	public void delete() {
+		this.setBounds(0, 0, Radius, Radius);
 	}
 
 	public void setCenter() {

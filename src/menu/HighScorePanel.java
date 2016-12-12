@@ -158,7 +158,6 @@ public class HighScorePanel extends BackgroundPanel {
 		rank.add(player);
 		Collections.sort(rank, comparator);
 		for (int i = 0; i < rank.size(); i++) {
-			System.out.println(rank.get(i).getName());
 			name[i].setText(rank.get(i).getName());
 			score[i].setText(rank.get(i).getScore() + "");
 			if (i == 5)

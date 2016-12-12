@@ -16,7 +16,7 @@ public class Level extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				sleep(3000);
+				sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -24,6 +24,12 @@ public class Level extends Thread {
 				switch (level) {
 
 				case 1: {
+					try {
+						sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					antiFactory.addAntivieren(new Antiviren(50), 50, 7);
 					antiFactory.addAntivieren(new Antiviren(50), 50, 7);
 					break;
@@ -31,13 +37,7 @@ public class Level extends Thread {
 				case 2: {
 					antiFactory.addAntivieren(new Antiviren(50), 50, 7);
 					antiFactory.addAntivieren(new Antiviren(100), 100, 6);
-					try {
-						sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					antiFactory.addAntivieren(new Antiviren(150), 100, 6);
+					antiFactory.addAntivieren(new Antiviren(150), 100, 5);
 
 					break;
 				}
@@ -48,7 +48,6 @@ public class Level extends Thread {
 					try {
 						sleep(1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					antiFactory.addAntivieren(new Antiviren(50), 50, 7);
@@ -58,11 +57,6 @@ public class Level extends Thread {
 				}
 				case 4: {
 					antiFactory.getCenter().setAnti_speed(14);
-					try {
-						sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 					antiFactory.addAntivieren(new Antiviren(50), 50, 7);
 					try {
 						sleep(500);
@@ -77,7 +71,7 @@ public class Level extends Thread {
 					}
 					antiFactory.addAntivieren(new Antiviren(150), 100, 5);
 					try {
-						sleep(1000);
+						sleep(8000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
