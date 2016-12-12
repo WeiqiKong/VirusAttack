@@ -1,3 +1,4 @@
+package virus;
 
 public class VirusDirection {
 	public static int GO_RIGHT = 3;

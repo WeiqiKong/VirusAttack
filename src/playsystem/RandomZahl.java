@@ -1,9 +1,10 @@
+package playsystem;
 
 public class RandomZahl {
 	int randomZahl;
 
 	public RandomZahl(int oben) {
-		this.setRandomZahl((int)(Math.random()*oben));
+		this.setRandomZahl((int) (Math.random() * oben));
 	}
 
 	public int getRandomZahl() {

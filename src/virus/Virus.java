@@ -1,7 +1,11 @@
+package virus;
+
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import playsystem.PlayFrame;
 
 public class Virus extends JLabel {
 	private int x = 0;
@@ -9,6 +13,7 @@ public class Virus extends JLabel {
 	public static double VIRUS_SPEED = 10.0;
 	private int Radius = 50;
 	private int level = 1;
+	private Point center = new Point(x + Radius / 2, y + Radius / 2);
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,6 +21,7 @@ public class Virus extends JLabel {
 		super();
 		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
 		this.setBounds(x, y, Radius, Radius);
+		this.setCenter();
 	}
 
 	public void move(int step) {
@@ -52,6 +58,7 @@ public class Virus extends JLabel {
 		}
 
 		this.setLocation(x, y);
+		setCenter();
 
 	}
 
@@ -60,7 +67,11 @@ public class Virus extends JLabel {
 		Radius += 50;
 		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
 		this.setBounds(x, y, Radius, Radius);
-		System.out.println(level);
+		this.setCenter();
+	}
+
+	public double getDistance(Point p) {
+		return Math.sqrt((center.x - p.x) * (center.x - p.x) + (center.y - p.y) * (center.y - p.y));
 	}
 
 	public Point getPostion() {
@@ -69,7 +80,7 @@ public class Virus extends JLabel {
 	}
 
 	public Point getCenter() {
-		return new Point(x + Radius, y + Radius);
+		return center;
 
 	}
 
@@ -121,8 +132,13 @@ public class Virus extends JLabel {
 	}
 
 	public void setLevel(int level) {
-		
+
 		this.level = level;
+	}
+
+	public void setCenter() {
+		this.center.x = x + Radius / 2;
+		this.center.y = y + Radius / 2;
 	}
 
 }
