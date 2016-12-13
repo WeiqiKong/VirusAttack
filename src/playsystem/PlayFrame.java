@@ -60,7 +60,6 @@ public class PlayFrame extends JFrame {
 			virus.setLocation(0, 0);
 			virus.init();
 			System.out.println("Level:" + virus.getLevel());
-
 			punkt = 0;
 			showpunkt = 0;
 			System.out.println(virus.getCenter().toString());
@@ -68,9 +67,10 @@ public class PlayFrame extends JFrame {
 			End_already = false;
 			antiFactory.init(6, 6, 2, 1);
 			antiFactory.addCenter();
-
-			// timer.setDelay(20);
-			// anti_timer.setDelay(30);
+			
+			 timer.setDelay(20);
+			 System.out.println("Delay 20");
+			 anti_timer.restart();
 		}
 
 	}
@@ -351,9 +351,11 @@ public class PlayFrame extends JFrame {
 					edp.setVisible(false);
 					wp.setVisible(false);
 				}
-				if (isEnd && !End_already) {
+				if (isEnd) {
 					// timer.setDelay(2000);
 					// anti_timer.setDelay(2000);
+					virus.init();
+					System.out.println("virus init");
 					hsp.setVisible(false);
 					gsm.setVisible(false);
 					jpnl.setVisible(false);
@@ -363,7 +365,7 @@ public class PlayFrame extends JFrame {
 							jpnl.remove(anti);
 					}
 					antiFactory.getAntiArray().clear();
-					End_already = true;
+					anti_timer.stop();
 				}
 				for (Antiviren anti : antiFactory.getAntiArray()) {
 					if (antiFactory.getAntiArray().contains(anti)) {
@@ -467,6 +469,9 @@ public class PlayFrame extends JFrame {
 					virus.setX(0);
 					virus.setY(0);
 					virus.setCenter();
+					virus.init();
+//					timer.setDelay(10000);
+//					anti_timer.setDelay(20000);
 					System.out.println("virus.setLocation(0, 0);" + virus.getCenter().toString());
 				}
 
