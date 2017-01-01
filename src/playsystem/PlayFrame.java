@@ -28,6 +28,8 @@ import virus.VirusDirection;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.awt.Point;
+
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 
@@ -38,7 +40,7 @@ public class PlayFrame extends JFrame {
 	private BackgroundPanel jpnl;
 	private Timer timer, anti_timer;
 	private static int punkt = 0;
-	private Virus virus;
+	public Virus virus;
 	private JLabel score;
 	private AntiFactory antiFactory;
 	private Level level;
@@ -48,32 +50,11 @@ public class PlayFrame extends JFrame {
 	private JLabel name;
 	private JTextField playerName;
 	private JLabel gameover;
-	private boolean isEnd, End_already = false;
+	private boolean isEnd = false;
 	private boolean firstTime = true;
 	private EndPanel edp;
 	private WinPanel wp;
 	private static final long serialVersionUID = 1L;
-
-	public void gameStart() {
-		System.out.println("firstTime:" + firstTime);
-		if (!firstTime) {
-			virus.setLocation(0, 0);
-			virus.init();
-			System.out.println("Level:" + virus.getLevel());
-			punkt = 0;
-			showpunkt = 0;
-			System.out.println(virus.getCenter().toString());
-			isEnd = false;
-			End_already = false;
-			antiFactory.init(6, 6, 2, 1);
-			antiFactory.addCenter();
-			
-			 timer.setDelay(20);
-			 System.out.println("Delay 20");
-			 anti_timer.restart();
-		}
-
-	}
 
 	public PlayFrame() {
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -99,11 +80,13 @@ public class PlayFrame extends JFrame {
 			}
 
 			public void mousePressed(MouseEvent e) {
-				gameStart();
+				jpnl.setVisible(true);
 				gsm.setVisible(false);
 				hsp.setVisible(false);
-				jpnl.setVisible(true);
 				edp.setVisible(false);
+				wp.setVisible(false);
+				jpnl.setFocusable(true);
+				gameStart();
 
 			}
 
@@ -202,9 +185,12 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				hsp.setVisible(false);
-				gsm.setVisible(true);
 				jpnl.setVisible(false);
+				gsm.setVisible(true);
+				hsp.setVisible(false);
+				edp.setVisible(false);
+				wp.setVisible(false);
+				
 			}
 
 			@Override
@@ -228,10 +214,11 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				hsp.setVisible(false);
-				gsm.setVisible(true);
 				jpnl.setVisible(false);
+				gsm.setVisible(true);
+				hsp.setVisible(false);
 				edp.setVisible(false);
+				wp.setVisible(false);
 				isEnd = false;
 				hsp.addDate(new Player(edp.getPlayerName().getText(), showpunkt));
 			}
@@ -262,7 +249,6 @@ public class PlayFrame extends JFrame {
 				jpnl.setVisible(false);
 				edp.setVisible(false);
 				wp.setVisible(false);
-				isEnd = false;
 				hsp.addDate(new Player(edp.getPlayerName().getText(), showpunkt));
 			}
 
@@ -286,6 +272,7 @@ public class PlayFrame extends JFrame {
 		playerName.setBounds(698, 606, 196, 48);
 		playerName.setFont(new Font("MV Boli", Font.PLAIN, 39));
 		playerName.setColumns(10);
+		playerName.setText("name");
 
 		jpnl.addKeyListener(new KeyAdapter() {
 			@Override
@@ -316,6 +303,7 @@ public class PlayFrame extends JFrame {
 					VirusDirection.IS_UP_PRESSED = true;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					System.out.println("down");
 					VirusDirection.IS_DOWN_PRESSED = true;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -328,13 +316,31 @@ public class PlayFrame extends JFrame {
 				// virus.move(VirusDirection.getDirection());
 			}
 		});
+
 		// 使用Timer增加刷新频率
+
 		antiFactory.init(6, 6, 2, 1);
 		antiFactory.addCenter();
 
 		timer = new Timer(20, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				virus.move(VirusDirection.getDirection());
+				if (isEnd) {
+//					virus.init();
+					System.out.println("virus init");
+					jpnl.setVisible(false);
+					gsm.setVisible(false);
+					hsp.setVisible(false);
+					edp.setVisible(true);
+					wp.setVisible(false);
+					for (Antiviren anti : antiFactory.getAntiArray()) {
+						if (antiFactory.getAntiArray().contains(anti))
+							jpnl.remove(anti);
+					}
+					antiFactory.getAntiArray().clear();
+					anti_timer.stop();
+					isEnd = false;
+				}
 			}
 		});
 		timer.start();
@@ -342,31 +348,38 @@ public class PlayFrame extends JFrame {
 		anti_timer = new Timer(30, new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				isCrashEat();
-				isCrashEated();
-				if (virus.getLevel() == 5) {
-					hsp.setVisible(false);
-					gsm.setVisible(true);
-					jpnl.setVisible(false);
-					edp.setVisible(false);
-					wp.setVisible(false);
-				}
-				if (isEnd) {
-					// timer.setDelay(2000);
-					// anti_timer.setDelay(2000);
+				if (level.getLevel() == 5) {
+					isEnd = true;
+					System.out.println("isEnd: " + isEnd);
+					firstTime = false;
+					VirusDirection.init();
 					virus.init();
-					System.out.println("virus init");
+					timer.stop();
+					anti_timer.stop();
+					level.setLevel(1);
+					level.setStop(true);
+					System.out.println("virus.setLocation(0, 0);" + virus.getCenter().toString());
 					hsp.setVisible(false);
 					gsm.setVisible(false);
 					jpnl.setVisible(false);
-					edp.setVisible(true);
-					for (Antiviren anti : antiFactory.getAntiArray()) {
-						if (antiFactory.getAntiArray().contains(anti))
-							jpnl.remove(anti);
-					}
-					antiFactory.getAntiArray().clear();
-					anti_timer.stop();
+					edp.setVisible(false);
+					wp.setVisible(true);
+					
 				}
+
+				if (!isEnd) {
+					isCrashEat();
+					isCrashEated();
+				}
+
+				// if (virus.getLevel() == 5) {
+				// hsp.setVisible(false);
+				// gsm.setVisible(true);
+				// jpnl.setVisible(false);
+				// edp.setVisible(false);
+				// wp.setVisible(false);
+				// }
+
 				for (Antiviren anti : antiFactory.getAntiArray()) {
 					if (antiFactory.getAntiArray().contains(anti)) {
 						anti.move();
@@ -385,7 +398,7 @@ public class PlayFrame extends JFrame {
 		hsp.addDate(new Player("Max", 5213));
 		hsp.addDate(new Player("Lucas", 3415));
 		hsp.addDate(new Player("Norman", 6321));
-		// hsp.addDate(new Player("Sven", 3414));
+		hsp.addDate(new Player("Sven", 3414));
 		getContentPane().add(wp);
 
 		JLabel lblYouWin = new JLabel("YOU WIN");
@@ -406,28 +419,6 @@ public class PlayFrame extends JFrame {
 		edp.setVisible(false);
 		wp.setVisible(false);
 
-		jpnl.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_L) {
-					virus.levelup();
-				}
-
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		pack();
 
 	}
@@ -463,19 +454,43 @@ public class PlayFrame extends JFrame {
 			if (virus.getDistance(anti.getCenter()) < (((anti.getRadius() + virus.getRadius()) / 2) - 40)) {
 				if (virus.getRadius() <= anti.getRadius() && !isEnd) {
 					isEnd = true;
-					System.out.println("isEnd: " + isEnd);
 					firstTime = false;
 					VirusDirection.init();
-					virus.setX(0);
-					virus.setY(0);
-					virus.setCenter();
 					virus.init();
-//					timer.setDelay(10000);
-//					anti_timer.setDelay(20000);
-					System.out.println("virus.setLocation(0, 0);" + virus.getCenter().toString());
+					virus.setLocation(0, 0);
+					virus.setRadius(50);
+					virus.setCenter();
+					level.setStop(true);
+					level.setLevel(1);
+					// timer.stop();
+					// anti_timer.stop();
 				}
 
 			}
 		}
 	}
+
+	public void gameStart() {
+		System.out.println("firstTime:" + firstTime);
+		isEnd = false;
+		if (!firstTime) {
+			// virus.setLocation(0, 0);
+			// virus.setCenter();
+			// virus.init();
+
+			// System.out.println("Level:" + virus.getLevel());
+			punkt = 0;
+			showpunkt = 0;
+			isEnd = false;
+			antiFactory.init(6, 6, 2, 1);
+			antiFactory.addCenter();
+			level.setStop(false);
+			timer.start();
+			anti_timer.start();
+			jpnl.setFocusable(true);
+
+
+		}
+	}
+
 }

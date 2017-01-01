@@ -7,6 +7,7 @@ public class Level extends Thread {
 
 	private int level = 1;
 	private AntiFactory antiFactory;
+	private boolean stop = false;
 
 	public Level(AntiFactory antiFactory) {
 		this.setAntiFactory(antiFactory);
@@ -20,7 +21,8 @@ public class Level extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (antiFactory.getAntiArray().size() < 16) {
+			
+			if (antiFactory.getAntiArray().size() < 16&&(!stop)) {
 				switch (level) {
 
 				case 1: {
@@ -97,5 +99,23 @@ public class Level extends Thread {
 	public void setAntiFactory(AntiFactory antiFactory) {
 		this.antiFactory = antiFactory;
 	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public boolean isStop() {
+		return stop;
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+	
+	
 
 }

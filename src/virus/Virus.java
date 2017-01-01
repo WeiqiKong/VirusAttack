@@ -84,9 +84,12 @@ public class Virus extends JLabel {
 
 	public void init() {
 		setLevel(1);
-		setRadius(Radius);
+		setRadius(50);
 		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + 50 + ".png")));
-		this.setBounds(x, y, Radius, Radius);
+		this.setBounds(0, 0, 50, 50);
+		this.x = 0;
+		this.y = 0;
+				
 		this.setCenter();
 	}
 

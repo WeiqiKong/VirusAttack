@@ -21,6 +21,8 @@ public class EndPanel extends BackgroundPanel {
 
 	public EndPanel(Image image) {
 		super(image);
+		
+		
 		playerName = new JTextField();
 		playerName.setBounds(698, 606, 196, 48);
 		playerName.setColumns(10);
