@@ -303,8 +303,8 @@ public class PlayFrame extends JFrame {
 					VirusDirection.IS_UP_PRESSED = true;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					System.out.println("down");
-					VirusDirection.IS_DOWN_PRESSED = true;
+
+				VirusDirection.IS_DOWN_PRESSED = true;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					VirusDirection.IS_RIGHT_PRESSED = true;
@@ -327,7 +327,6 @@ public class PlayFrame extends JFrame {
 				virus.move(VirusDirection.getDirection());
 				if (isEnd) {
 //					virus.init();
-					System.out.println("virus init");
 					jpnl.setVisible(false);
 					gsm.setVisible(false);
 					hsp.setVisible(false);
@@ -350,7 +349,6 @@ public class PlayFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (level.getLevel() == 5) {
 					isEnd = true;
-					System.out.println("isEnd: " + isEnd);
 					firstTime = false;
 					VirusDirection.init();
 					virus.init();
@@ -358,7 +356,6 @@ public class PlayFrame extends JFrame {
 					anti_timer.stop();
 					level.setLevel(1);
 					level.setStop(true);
-					System.out.println("virus.setLocation(0, 0);" + virus.getCenter().toString());
 					hsp.setVisible(false);
 					gsm.setVisible(false);
 					jpnl.setVisible(false);
@@ -434,7 +431,7 @@ public class PlayFrame extends JFrame {
 					}
 					punkt += (anti.getRadius() * 2 / virus.getLevel());
 					showpunkt += anti.getRadius();
-					System.out.println("punkt" + punkt);
+//					System.out.println("punkt" + punkt);
 					score.setText("Score:" + showpunkt);
 					if (punkt >= 2000) {
 						virus.levelup();
@@ -462,6 +459,7 @@ public class PlayFrame extends JFrame {
 					virus.setCenter();
 					level.setStop(true);
 					level.setLevel(1);
+//					score.setText("Score: 0");
 					// timer.stop();
 					// anti_timer.stop();
 				}
@@ -471,7 +469,7 @@ public class PlayFrame extends JFrame {
 	}
 
 	public void gameStart() {
-		System.out.println("firstTime:" + firstTime);
+//		System.out.println("firstTime:" + firstTime);
 		isEnd = false;
 		if (!firstTime) {
 			// virus.setLocation(0, 0);
@@ -488,6 +486,7 @@ public class PlayFrame extends JFrame {
 			timer.start();
 			anti_timer.start();
 			jpnl.setFocusable(true);
+			score.setText("Score: 0");
 
 
 		}
