@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import playsystem.BackgroundPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Color;
 
 public class HighScorePanel extends BackgroundPanel {

@@ -1,6 +1,5 @@
 package anti;
 
-import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
 

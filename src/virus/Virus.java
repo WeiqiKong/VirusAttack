@@ -5,8 +5,6 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import playsystem.PlayFrame;
-
 public class Virus extends JLabel {
 	private int x = 0;
 	private int y = 0;
@@ -19,7 +17,7 @@ public class Virus extends JLabel {
 
 	public Virus() {
 		super();
-		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
+		this.setIcon(new ImageIcon("src/icon/virus_1_50.png"));
 		this.setBounds(x, y, Radius, Radius);
 		this.setCenter();
 	}
@@ -77,7 +75,7 @@ public class Virus extends JLabel {
 	public void levelup() {
 		setLevel(getLevel() + 1);
 		Radius += 50;
-		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + Radius + ".png")));
+		this.setIcon(new ImageIcon("src/icon/Virus_1_" + Radius + ".png"));
 		this.setBounds(x, y, Radius, Radius);
 		this.setCenter();
 	}
@@ -85,11 +83,11 @@ public class Virus extends JLabel {
 	public void init() {
 		setLevel(1);
 		setRadius(50);
-		this.setIcon(new ImageIcon(PlayFrame.class.getResource("/icon/Virus_1_" + 50 + ".png")));
+		this.setIcon(new ImageIcon(("src/icon/Virus_1_" + 50 + ".png")));
 		this.setBounds(0, 0, 50, 50);
 		this.x = 0;
 		this.y = 0;
-				
+
 		this.setCenter();
 	}
 

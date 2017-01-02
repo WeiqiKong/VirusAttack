@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
@@ -18,6 +17,7 @@ import javax.swing.UIManager;
 import anti.AntiFactory;
 import anti.Antiviren;
 import level.Level;
+import menu.BackgroundPanel;
 import menu.EndPanel;
 import menu.GameStartMenu;
 import menu.HighScorePanel;
@@ -28,7 +28,6 @@ import virus.VirusDirection;
 import javax.swing.JLabel;
 
 import java.awt.Font;
-import java.awt.Point;
 
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
@@ -64,7 +63,7 @@ public class PlayFrame extends JFrame {
 
 		// GAME START JPanel
 		GameStartMenu gsm = new GameStartMenu(
-				(new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+				(new ImageIcon("src/icon/background2.jpg")).getImage());
 		gsm.setOpaque(false);
 		gsm.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		gsm.setFocusable(true);
@@ -76,7 +75,7 @@ public class PlayFrame extends JFrame {
 		GameStart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				GameStart.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/Game-Start.png")));
+				GameStart.setIcon(new ImageIcon("src/images/Game-Start.png"));
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -92,10 +91,10 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				GameStart.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/Game-Start-white.png")));
+				GameStart.setIcon(new ImageIcon("src/images/Game-Start-white.png"));
 			}
 		});
-		GameStart.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/Game-Start-white.png")));
+		GameStart.setIcon(new ImageIcon("src/images/Game-Start-white.png"));
 		GameStart.setBackground(UIManager.getColor("Button.highlight"));
 		GameStart.setContentAreaFilled(false);
 		GameStart.setOpaque(false);
@@ -108,7 +107,7 @@ public class PlayFrame extends JFrame {
 		HighScore.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				HighScore.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/High-Score.png")));
+				HighScore.setIcon(new ImageIcon("src/images/High-Score.png"));
 			}
 
 			@Override
@@ -119,17 +118,17 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				HighScore.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/High-Score-white.png")));
+				HighScore.setIcon(new ImageIcon("src/images/High-Score-white.png"));
 			}
 		});
-		HighScore.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/High-Score-white.png")));
+		HighScore.setIcon(new ImageIcon(("src/images/High-Score-white.png")));
 		HighScore.setContentAreaFilled(false);
 		HighScore.setOpaque(false);
 		HighScore.setBorder(null);
 		gsm.add(HighScore);
 
 		// High Score Panel
-		hsp = new HighScorePanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		hsp = new HighScorePanel((new ImageIcon(("src/icon/background2.jpg")).getImage()));
 		hsp.setOpaque(false);
 		hsp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		hsp.setFocusable(true);
@@ -137,7 +136,7 @@ public class PlayFrame extends JFrame {
 		hsp.setVisible(false);
 
 		// GAME JPanel
-		jpnl = new BackgroundPanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		jpnl = new BackgroundPanel((new ImageIcon(("src/icon/background2.jpg")).getImage()));
 
 		jpnl.setOpaque(false);
 		jpnl.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
@@ -156,7 +155,7 @@ public class PlayFrame extends JFrame {
 		jpnl.add(score);
 
 		// EndPanel
-		edp = new EndPanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		edp = new EndPanel((new ImageIcon(("src/icon/background2.jpg")).getImage()));
 		edp.setOpaque(false);
 		edp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		edp.setFocusable(true);
@@ -164,7 +163,7 @@ public class PlayFrame extends JFrame {
 		edp.setVisible(false);
 
 		// WinPanel
-		wp = new WinPanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
+		wp = new WinPanel((new ImageIcon(("src/icon/background2.jpg")).getImage()));
 		wp.setOpaque(false);
 		wp.setPreferredSize(new Dimension(PF_WIDTH, PF_HEGHT));
 		wp.setFocusable(true);
@@ -173,14 +172,14 @@ public class PlayFrame extends JFrame {
 
 		// GameOver GIF
 		gameover = new JLabel("");
-		gameover.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/Gameover.gif")));
+		gameover.setIcon(new ImageIcon(("src/images/Gameover.gif")));
 		gameover.setBounds(133, 148, 1014, 424);
 
 		back = new JButton();
 		back.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				back.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back-shine.png")));
+				back.setIcon(new ImageIcon(("src/images/highscore/back-shine.png")));
 			}
 
 			@Override
@@ -195,10 +194,10 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				back.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back.png")));
+				back.setIcon(new ImageIcon(("src/images/highscore/back.png")));
 			}
 		});
-		back.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/highscore/back.png")));
+		back.setIcon(new ImageIcon(("src/images/highscore/back.png")));
 		back.setBounds(969, 631, 178, 64);
 		back.setContentAreaFilled(false);
 		back.setBorder(null);
@@ -209,7 +208,7 @@ public class PlayFrame extends JFrame {
 		back_end.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				back_end.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back-shine.png")));
+				back_end.setIcon(new ImageIcon(("src/images/highscore/back-shine.png")));
 			}
 
 			@Override
@@ -225,10 +224,10 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				back_end.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back.png")));
+				back_end.setIcon(new ImageIcon(("src/images/highscore/back.png")));
 			}
 		});
-		back_end.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/highscore/back.png")));
+		back_end.setIcon(new ImageIcon("src/images/highscore/back.png"));
 		back_end.setBounds(969, 606, 178, 64);
 		back_end.setContentAreaFilled(false);
 		back_end.setBorder(null);
@@ -239,7 +238,7 @@ public class PlayFrame extends JFrame {
 		back_win.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				back_win.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back-shine.png")));
+				back_win.setIcon(new ImageIcon(("src/images/highscore/back-shine.png")));
 			}
 
 			@Override
@@ -254,10 +253,10 @@ public class PlayFrame extends JFrame {
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				back_win.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/highscore/back.png")));
+				back_win.setIcon(new ImageIcon(("src/images/highscore/back.png")));
 			}
 		});
-		back_win.setIcon(new ImageIcon(GameStartMenu.class.getResource("/images/highscore/back.png")));
+		back_win.setIcon(new ImageIcon(("src/images/highscore/back.png")));
 		back_win.setBounds(969, 606, 178, 64);
 		back_win.setContentAreaFilled(false);
 		back_win.setBorder(null);
@@ -265,7 +264,7 @@ public class PlayFrame extends JFrame {
 		wp.add(back_win);
 
 		name = new JLabel("");
-		name.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/endPanel/name.png")));
+		name.setIcon(new ImageIcon(("src/images/endPanel/name.png")));
 		name.setBounds(539, 606, 129, 48);
 
 		playerName = new JTextField();

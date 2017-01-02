@@ -7,9 +7,6 @@ package menu;
 	import javax.swing.JLabel;
 	import javax.swing.JTextField;
 
-	import playsystem.BackgroundPanel;
-	import playsystem.PlayFrame;
-
 public class WinPanel extends BackgroundPanel{
 	
 		private static final long serialVersionUID = -4620782161113975882L;
@@ -24,7 +21,7 @@ public class WinPanel extends BackgroundPanel{
 			playerName.setFont(new Font("MV Boli", Font.PLAIN, 36));
 
 			name = new JLabel("");
-			name.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/endPanel/name.png")));
+			name.setIcon(new ImageIcon(("src/images/endPanel/name.png")));
 			name.setBounds(539, 606, 129, 48);
 			this.add(name);
 			this.add(playerName);

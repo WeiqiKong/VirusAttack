@@ -2,8 +2,6 @@ package menu;
 
 import java.awt.Image;
 
-import playsystem.BackgroundPanel;
-
 public class GameStartMenu extends BackgroundPanel {
 
 	/**
