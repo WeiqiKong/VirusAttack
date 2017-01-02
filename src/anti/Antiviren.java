@@ -36,7 +36,7 @@ public class Antiviren extends JLabel {
 
 	public void init(int speed) {
 		setAnti_speed(speed);
-		this.setIcon(new ImageIcon(Antiviren.class.getResource("/icon/anti_" + radius + "x" + radius + ".png")));
+		this.setIcon(new ImageIcon(Antiviren.class.getResource("/icon/Anti_" + radius + "x" + radius + ".png")));
 		// System.out.println("/icon/anti_" + radius + "x" + radius + ".png");
 		this.setBounds(x, y, getRadius(), getRadius());
 		// System.out.println(x + " " + y);
