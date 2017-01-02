@@ -21,7 +21,7 @@ public class WinPanel extends BackgroundPanel{
 			playerName.setFont(new Font("MV Boli", Font.PLAIN, 36));
 
 			name = new JLabel("");
-			name.setIcon(new ImageIcon(("src/images/endPanel/name.png")));
+			name.setIcon(new ImageIcon(WinPanel.class.getResource("/images/endPanel/name.png")));
 			name.setBounds(539, 606, 129, 48);
 			this.add(name);
 			this.add(playerName);

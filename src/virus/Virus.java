@@ -17,7 +17,7 @@ public class Virus extends JLabel {
 
 	public Virus() {
 		super();
-		this.setIcon(new ImageIcon("src/icon/virus_1_50.png"));
+		this.setIcon(new ImageIcon(Virus.class.getResource("/icon/virus_1_50.png")));
 		this.setBounds(x, y, Radius, Radius);
 		this.setCenter();
 	}
@@ -75,7 +75,7 @@ public class Virus extends JLabel {
 	public void levelup() {
 		setLevel(getLevel() + 1);
 		Radius += 50;
-		this.setIcon(new ImageIcon("src/icon/Virus_1_" + Radius + ".png"));
+		this.setIcon(new ImageIcon(Virus.class.getResource("/icon/Virus_1_" + Radius + ".png")));
 		this.setBounds(x, y, Radius, Radius);
 		this.setCenter();
 	}
@@ -83,7 +83,7 @@ public class Virus extends JLabel {
 	public void init() {
 		setLevel(1);
 		setRadius(50);
-		this.setIcon(new ImageIcon(("src/icon/Virus_1_" + 50 + ".png")));
+		this.setIcon(new ImageIcon(Virus.class.getResource(("/icon/Virus_1_" + 50 + ".png"))));
 		this.setBounds(0, 0, 50, 50);
 		this.x = 0;
 		this.y = 0;

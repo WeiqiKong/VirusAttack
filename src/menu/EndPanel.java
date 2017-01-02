@@ -26,12 +26,12 @@ public class EndPanel extends BackgroundPanel {
 		playerName.setFont(new Font("MV Boli", Font.PLAIN, 36));
 
 		name = new JLabel("");
-		name.setIcon(new ImageIcon("src/images/endPanel/name.png"));
+		name.setIcon(new ImageIcon(EndPanel.class.getResource("/images/endPanel/name.png")));
 		name.setBounds(539, 606, 129, 48);
 
 		gameover = new JLabel("");
 		gameover.setBounds(133, 148, 1014, 424);
-		gameover.setIcon(new ImageIcon(("src/images/Gameover.gif")));
+		gameover.setIcon(new ImageIcon(EndPanel.class.getResource("/images/Gameover.gif")));
 
 		this.add(gameover);
 		this.add(name);
