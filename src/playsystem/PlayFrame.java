@@ -126,6 +126,29 @@ public class PlayFrame extends JFrame {
 		HighScore.setOpaque(false);
 		HighScore.setBorder(null);
 		gsm.add(HighScore);
+		
+		JButton Exit = new JButton("");
+		Exit.setBounds(1080, 640, 200, 79);
+		Exit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+					System.exit(0);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+		});
+		Exit.setIcon(new ImageIcon(PlayFrame.class.getResource("/images/exit.png")));
+		Exit.setContentAreaFilled(false);
+		Exit.setOpaque(false);
+		Exit.setBorder(null);
+		gsm.add(Exit);
+		
 
 		// High Score Panel
 		hsp = new HighScorePanel((new ImageIcon(PlayFrame.class.getResource("/icon/background2.jpg")).getImage()));
@@ -143,6 +166,8 @@ public class PlayFrame extends JFrame {
 		jpnl.setFocusable(true);
 		jpnl.setLayout(null);
 		jpnl.setVisible(false);
+		
+		
 
 		antiFactory = new AntiFactory(jpnl);
 		virus = new Virus();
