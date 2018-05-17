@@ -10,6 +10,7 @@ public class Main {
 			public void run() {
 				PlayFrame f = new PlayFrame();
 				f.setVisible(true);
+				System.out.println("Git");
 			}
 		});
 	}
